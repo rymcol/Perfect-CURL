@@ -155,7 +155,7 @@ public class CURL {
 	}
 
 	/// Perform the CURL request in a non-blocking manner. The closure will be called with the resulting code, header and body data.
-	public func perform(closure: (Int, [UInt8], [UInt8]) -> ()) {
+	public func perform(closure: @escaping(Int, [UInt8], [UInt8]) -> ()) {
         guard let curl = self.curl else {
             return closure(-1, [UInt8](), [UInt8]())
         }
@@ -168,7 +168,7 @@ public class CURL {
 		performInner(accumulator: accum, closure: closure)
 	}
 
-	private func performInner(accumulator: ResponseAccumulator, closure: (Int, [UInt8], [UInt8]) -> ()) {
+	private func performInner(accumulator: ResponseAccumulator, closure: @escaping (Int, [UInt8], [UInt8]) -> ()) {
 		let perf = self.perform()
 		if let h = perf.2 {
 			_ = accumulator.header.append(contentsOf: h)
